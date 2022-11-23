@@ -1,20 +1,26 @@
-import { Text, View, Image } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Logo from "../../assets/LogoSVG";
+import Stories from "../components/Stories";
+import { Feather } from "@expo/vector-icons";
 
 const ExploreHeader = () => {
   return (
-    <View className="mb-10">
-      <Image source={require("../../assets/snac.png")} className=" mx-auto" />
+    <View className="mb-10 flex flex-col items-center justify-center">
+      <Logo color="#8CFFAC" height={29} width={80} />
+      <View className="bg-white/10 rounded-full p-1 absolute top-0 right-4">
+        <Feather name="search" size={24} color="white" />
+      </View>
+      <Stories />
     </View>
   );
 };
 
 const Explore = () => {
   return (
-    <SafeAreaView className="bg-bg h-full">
+    <SafeAreaView className="bg-snacPurple h-full">
       <ExploreHeader />
-      <Text className="text-center text-white text-2xl">Explore page</Text>
     </SafeAreaView>
   );
 };

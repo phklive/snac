@@ -6,7 +6,7 @@ import { PrimaryNavigatorProp } from "../navigation/types";
 const Congratulations = () => {
   const navigation = useNavigation<PrimaryNavigatorProp>();
   return (
-    <SafeAreaView className="bg-bg flex flex-col justify-center items-center h-screen">
+    <SafeAreaView className="bg-snacPurple flex flex-col justify-center items-center h-screen">
       <Image
         source={require("../../assets/Iconsuccess.png")}
         className="mx-auto mt-32"

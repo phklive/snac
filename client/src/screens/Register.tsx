@@ -31,14 +31,16 @@ const Register = () => {
         password
       );
       const uid = userCredentials.user.uid;
-      await setDoc(doc(db, "users", uid), {
+      const newUser: User = {
         uid: uid,
         name: "",
         email: email,
         description: "",
         favs: [],
         snacs: [],
-      });
+        score: 0,
+      };
+      await setDoc(doc(db, "users", uid), newUser);
     } catch (error) {
       if (error.message == "Firebase: Error (auth/email-already-in-use).") {
         setError("Email already in use.");
