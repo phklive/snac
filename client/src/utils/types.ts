@@ -13,5 +13,6 @@ type Snac = {
   title: string;
   price: number;
   owner: string;
+  creator: string;
   likes: number;
 };

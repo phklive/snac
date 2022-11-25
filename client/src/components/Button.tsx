@@ -15,14 +15,7 @@ interface ButtonProps {
   style?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  text,
-  type,
-  to,
-  style,
-  color,
-  params,
-}) => {
+const Button: React.FC<ButtonProps> = ({ text, type, to, style, color }) => {
   let navigation: any;
   let buttonStyle: string;
   let textStyle: string;
@@ -53,7 +46,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(to, params)}
+      onPress={() => navigation.navigate(to)}
       className={buttonStyle + " " + style}
     >
       <Text className={textStyle}>{text}</Text>

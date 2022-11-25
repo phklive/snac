@@ -9,6 +9,7 @@ export type AuthPrimaryNavigatorParamList = {
 export type PrimaryNavigatorParamList = {
   Name: { uid: string };
   Congratulations: undefined;
+  CreateDigi: undefined;
   TabNavigation: undefined;
 };
 

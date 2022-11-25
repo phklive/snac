@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Explore from "../screens/Explore";
 import Portfolio from "../screens/Portfolio";
 import Profile from "../screens/Profile";
-import Splash from "../screens/Splash";
 import {
   AuthPrimaryNavigatorParamList,
   PrimaryNavigatorParamList,
@@ -17,6 +16,7 @@ import Register from "../screens/Register";
 import Login from "../screens/Login";
 import Name from "../screens/Name";
 import Congratulations from "../screens/Congratulations";
+import CreateDigi from "../screens/CreateDigi";
 
 interface NavigationProps {
   connected: boolean;
@@ -33,6 +33,7 @@ const TabNavigation: React.FC = () => {
         tabBarStyle: {
           backgroundColor: "#1D0A32",
           borderTopWidth: 0,
+          marginTop: 0,
         },
         tabBarShowLabel: false,
         lazy: true,
@@ -82,6 +83,7 @@ const Navigation: React.FC<NavigationProps> = ({ connected, userHasName }) => {
         >
           <Stack.Screen name="Name" component={Name} />
           <Stack.Screen name="Congratulations" component={Congratulations} />
+          <Stack.Screen name="CreateDigi" component={CreateDigi} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         </Stack.Navigator>
       </NavigationContainer>
