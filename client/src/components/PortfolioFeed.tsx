@@ -20,13 +20,13 @@ const PortFolioFeed: React.FC<PortfolioFeedProps> = ({ user, view }) => {
 
   let data: Snac[] = [];
 
-  if (view == "created") {
-    data = user?.snacs.filter((snac: Snac) => user.uid == snac.creator) || [];
-  }
+  // if (view == "created") {
+  //   data = user?.snacs.filter((snac: Snac) => user.uid == snac.creator) || [];
+  // }
 
-  if (view == "collected") {
-    data = user?.snacs.filter((snac: Snac) => user.uid != snac.creator) || [];
-  }
+  // if (view == "collected") {
+  //   data = user?.snacs.filter((snac: Snac) => user.uid != snac.creator) || [];
+  // }
 
   const renderItem: ListRenderItem<Snac> = ({ item }) => {
     return <View></View>;

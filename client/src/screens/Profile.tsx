@@ -43,7 +43,7 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView className="bg-snacPurple h-full">
+    <SafeAreaView className="bg-snacPurple flex-1">
       <View className="flex flex-row justify-between px-4 items-center">
         <View className="flex flex-row items-center">
           <Image

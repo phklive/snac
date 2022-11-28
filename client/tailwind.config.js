@@ -9,6 +9,7 @@ module.exports = {
         snacPurple: "#1D0A32",
         clearPurple: "#5A2789",
         snacGreen: "#8CFFAC",
+        snacPink: "#FF81FE",
       },
     },
   },

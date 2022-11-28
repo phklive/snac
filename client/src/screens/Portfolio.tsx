@@ -8,8 +8,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import PortfolioFeed from "../components/PortfolioFeed";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase";
+import { share } from "../utils/share";
 
 const Portfolio = () => {
   const [user, setUser] = useState<User>(null);
@@ -48,14 +49,42 @@ const Portfolio = () => {
       />
       <SafeAreaView className="h-full flex-1">
         <View className="flex flex-row justify-end items-center">
-          <View className="bg-white/10 rounded-full px-2 py-1 mx-2">
+          <TouchableOpacity className="bg-white/10 rounded-full px-2 py-1 mx-2">
             <Text className="text-white font-bold">Edit Profile</Text>
-          </View>
-          <View className="bg-white/10 rounded-full p-1 mr-4">
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-white/10 rounded-full p-1 mr-4"
+            onPress={() => share()}
+          >
             <Feather name="share" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+        <View className="h-1/2 flex flex-col justify-end pb-4 p-4">
+          <View className="flex flex-row items-center">
+            <TouchableOpacity>
+              <Image
+                source={require("../../assets/profileAddPic.png")}
+                className="mr-4"
+              />
+            </TouchableOpacity>
+            <View>
+              {user?.name && (
+                <Text className="text-2xl text-white font-bold">
+                  {user.name}
+                </Text>
+              )}
+              {user?.description ? (
+                <Text className="text-white font-bold">{user.description}</Text>
+              ) : (
+                <TouchableOpacity>
+                  <Text className="text-lg text-snacPink font-bold">
+                    Add Bio
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
-        <View className="h-1/2"></View>
         <View className="flex flex-row items-center">
           <TouchableOpacity
             onPress={() => setCreated(true)}

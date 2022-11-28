@@ -13,7 +13,8 @@ const FeedItem: React.FC<FeedItemProps> = ({}) => {
 
 const Feed = () => {
   const data = [];
-  return <FlatList data={data} renderItem={} />;
+  return <View></View>;
+  // <FlatList data={data} renderItem={} />;
 };
 
 export default Feed;

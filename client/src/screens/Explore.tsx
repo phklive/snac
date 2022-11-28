@@ -2,7 +2,7 @@ import { View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "../../assets/LogoSVG";
-import Stories from "../components/Stories";
+import Stories from "../components/StoriesFeed";
 import { Feather } from "@expo/vector-icons";
 
 const ExploreHeader = () => {
@@ -19,7 +19,7 @@ const ExploreHeader = () => {
 
 const Explore = () => {
   return (
-    <SafeAreaView className="bg-snacPurple h-full">
+    <SafeAreaView className="bg-snacPurple flex-1">
       <ExploreHeader />
     </SafeAreaView>
   );

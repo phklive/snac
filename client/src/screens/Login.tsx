@@ -1,35 +1,31 @@
 import {
-  View,
   Text,
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { AuthPrimaryNavigatorProp } from "../navigation/types";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../utils/firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const { login } = useContext(AuthContext);
+
   const navigation = useNavigation<AuthPrimaryNavigatorProp>();
 
-  const login = async () => {
+  const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      login();
     } catch (error: any) {
-      if (error.message == "Firebase: Error (auth/invalid-email).") {
-        setError("Invalid credentials.");
-      } else {
-        setError(error.message);
-      }
+      setError(error.message);
     }
   };
 
@@ -73,7 +69,7 @@ const Login = () => {
         </KeyboardAvoidingView>
         <TouchableOpacity
           className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto"
-          onPress={login}
+          onPress={handleLogin}
         >
           <Text className="text-snacPurple text-center font-bold text-xl">
             Connect to your account
