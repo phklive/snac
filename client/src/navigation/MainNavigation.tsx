@@ -66,7 +66,11 @@ const PortfolioStackScreen = () => {
     >
       <PortfolioStack.Screen name="Portfolio" component={Portfolio} />
       <PortfolioStack.Screen name="CreateDigi" component={CreateDigi} />
-      <PortfolioStack.Screen name="Edit" component={Edit} />
+      <PortfolioStack.Screen
+        name="Edit"
+        component={Edit}
+        options={{ presentation: "modal" }}
+      />
       <PortfolioStack.Screen name="Digi" component={Digi} />
     </PortfolioStack.Navigator>
   );
@@ -103,12 +107,6 @@ export type MainNavigatorProp =
 const MainStack = createBottomTabNavigator<MainNavigationParamList>();
 
 const MainNavigation: React.FC = () => {
-  const { setRefetch } = useContext(AuthContext);
-
-  useEffect(() => {
-    setRefetch(true);
-  }, []);
-
   return (
     <MainStack.Navigator
       initialRouteName="ExploreStackScreen"

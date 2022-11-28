@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
+    banner: {
+      data: Buffer,
+      type: String,
+    },
+    profile: {
+      data: Buffer,
+      type: String,
+    },
     name: {
       type: String,
       require: true,

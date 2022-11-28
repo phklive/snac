@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,12 +31,17 @@ const Login = () => {
 
   return (
     <SafeAreaView className="bg-snacPurple flex-1 px-4">
-      <Ionicons
-        name="chevron-back"
-        size={24}
-        color="white"
-        onPress={() => navigation.goBack()}
-      />
+      <View className="flex flex-row">
+        <TouchableOpacity className="bg-white/10 p-1 rounded-full">
+          <Ionicons
+            name="chevron-back"
+            onPress={() => navigation.goBack()}
+            size={24}
+            color="white"
+            className="bg-white/10"
+          />
+        </TouchableOpacity>
+      </View>
       <KeyboardAvoidingView behavior="padding" className="mt-32">
         {error && (
           <Text className="text-red-500 text-center text-lg">{error}</Text>

@@ -14,15 +14,15 @@ import { AuthNavigatorProp } from "../navigation/AuthNavigation";
 import { AuthContext } from "../context/AuthContext";
 
 const Name = ({ route }) => {
+  const navigation = useNavigation<AuthNavigatorProp>();
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const navigation = useNavigation<AuthNavigatorProp>();
   const { email, password } = route.params;
   const { register } = useContext(AuthContext);
 
   const addName = async () => {
     try {
-      register(name, email, password);
+      register(email, password, name);
     } catch (error: any) {
       setError(error.message);
     }

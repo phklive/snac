@@ -10,7 +10,6 @@ interface AuthContextProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setUserToken: React.Dispatch<React.SetStateAction<string>>;
   setUser: React.Dispatch<React.SetStateAction<User>>;
-  setRefetch: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   userToken: string;
   user: User;
@@ -25,7 +24,6 @@ export const AuthContext = createContext<AuthContextProps | null>(null);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User>(undefined);
   const [userToken, setUserToken] = useState<string>("");
-  const [refetch, setRefetch] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,33 +31,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setLoading(true);
       await isLoggedIn();
       setLoading(false);
-      setRefetch(false);
     };
+
     getUser();
-  }, [refetch]);
-
-  const login = async (email: string, password: string) => {
-    try {
-      const res = await axios.post(`${BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
-      const { token } = res.data;
-      await SecureStore.setItemAsync("token", token);
-      setUserToken(token);
-    } catch (error: any) {
-      console.log("login failed.");
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await SecureStore.deleteItemAsync("token");
-      setUserToken("");
-    } catch (error: any) {
-      console.log("logout failed.");
-    }
-  };
+  }, []);
 
   const register = async (email: string, password: string, name: string) => {
     try {
@@ -70,28 +45,56 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
       const { token } = res.data;
       await SecureStore.setItemAsync("token", token);
-      setUserToken(token);
+      await isLoggedIn();
     } catch (error: any) {
+      setUser(null);
+      setUserToken("");
       console.log(error.message);
+    }
+  };
+
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, {
+        email,
+        password,
+      });
+      const { token } = res.data;
+      await SecureStore.setItemAsync("token", token);
+      await isLoggedIn();
+    } catch (error: any) {
+      setUser(null);
+      setUserToken("");
+      console.log("login failed.");
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await SecureStore.deleteItemAsync("token");
+      setUser(null);
+      setUserToken("");
+    } catch (error: any) {
+      console.log("logout failed.");
     }
   };
 
   const isLoggedIn = async () => {
     try {
       const token = await SecureStore.getItemAsync("token");
+      if (!token) throw new Error("No token found");
       const res = await axios.get(`${BASE_URL}/auth/getMe`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
       const user = res.data;
-      if (!user) {
-        setUser(null);
-        setUserToken("");
-      }
       setUser(user);
       setUserToken(token);
+      console.log("Found user token");
     } catch (error: any) {
+      setUser(null);
+      setUserToken("");
       console.log(error.message);
     }
   };
@@ -105,7 +108,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading,
         setUserToken,
         setUser,
-        setRefetch,
         loading,
         userToken,
         user,

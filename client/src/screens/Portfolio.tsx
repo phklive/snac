@@ -10,10 +10,12 @@ import { Feather } from "@expo/vector-icons";
 import PortfolioFeed from "../components/PortfolioFeed";
 import { share } from "../utils/share";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { MainNavigatorProp } from "../navigation/MainNavigation";
 
 const Portfolio = () => {
   const [created, setCreated] = useState(true);
-
+  const navigation = useNavigation<MainNavigatorProp>();
   const { user } = useContext(AuthContext);
 
   return (
@@ -24,7 +26,12 @@ const Portfolio = () => {
       />
       <SafeAreaView className="h-full flex-1">
         <View className="flex flex-row justify-end items-center">
-          <TouchableOpacity className="bg-white/10 rounded-full px-2 py-1 mx-2">
+          <TouchableOpacity
+            className="bg-white/10 rounded-full px-2 py-1 mx-2"
+            onPress={() =>
+              navigation.navigate("PortfolioStackScreen", { screen: "Edit" })
+            }
+          >
             <Text className="text-white font-bold">Edit Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -34,9 +41,24 @@ const Portfolio = () => {
             <Feather name="share" size={20} color="white" />
           </TouchableOpacity>
         </View>
+
         <View className="h-1/2 flex flex-col justify-end pb-4 p-4">
+          <TouchableOpacity
+            className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center mb-24"
+            onPress={() =>
+              navigation.navigate("PortfolioStackScreen", { screen: "Edit" })
+            }
+          >
+            <Text className="text-snacPink text-center font-bold text-xl">
+              + Add Banner
+            </Text>
+          </TouchableOpacity>
           <View className="flex flex-row items-center">
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("PortfolioStackScreen", { screen: "Edit" })
+              }
+            >
               <Image
                 source={require("../../assets/profileAddPic.png")}
                 className="mr-4"
@@ -51,7 +73,13 @@ const Portfolio = () => {
               {user?.description ? (
                 <Text className="text-white font-bold">{user.description}</Text>
               ) : (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("PortfolioStackScreen", {
+                      screen: "Edit",
+                    })
+                  }
+                >
                   <Text className="text-lg text-snacPink font-bold">
                     Add Bio
                   </Text>
@@ -64,12 +92,12 @@ const Portfolio = () => {
           <TouchableOpacity
             onPress={() => setCreated(true)}
             className={`${
-              created ? "border-white" : "border-clearPurple"
+              created ? "border-white" : "border-snacPurple2"
             } border-b-2 flex-1`}
           >
             <Text
               className={`font-bold ${
-                created ? "text-white" : "text-clearPurple"
+                created ? "text-white" : "text-snacPurple2"
               } text-xl text-center`}
             >
               Created 0
@@ -78,12 +106,12 @@ const Portfolio = () => {
           <TouchableOpacity
             onPress={() => setCreated(false)}
             className={`${
-              created ? "border-clearPurple" : "border-white"
+              created ? "border-snacPurple2" : "border-white"
             } border-b-2 flex-1 `}
           >
             <Text
               className={`font-bold ${
-                created ? "text-clearPurple" : "text-white"
+                created ? "text-snacPurple2" : "text-white"
               } text-xl text-center`}
             >
               Collected 0

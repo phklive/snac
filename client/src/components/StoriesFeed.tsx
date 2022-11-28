@@ -1,5 +1,7 @@
 import { Text, Image, View, FlatList, ListRenderItem } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../utils/config";
 
 interface StoryProps {
   user: User;
@@ -27,6 +29,20 @@ const StoryItem: React.FC<StoryProps> = ({ user }) => {
 
 const StoriesFeed = () => {
   const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/user/all`);
+        const users = res.data;
+        setUsers(users);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+
+    getUsers();
+  }, []);
 
   const renderItem: ListRenderItem<User> = ({ item }) => {
     return <StoryItem user={item} />;

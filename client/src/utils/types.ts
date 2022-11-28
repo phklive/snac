@@ -5,7 +5,7 @@ type User = {
   score: number;
   favs: [];
   snacs: [];
-  description: String;
+  description: string;
 };
 
 type Snac = {

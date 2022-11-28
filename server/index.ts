@@ -6,6 +6,9 @@ import morgan from "morgan";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
+import userRoutes from "./routes/user";
+import multer from "multer";
+import { uploadProfile, uploadBanner } from "./controllers/user";
 
 // Configuration
 dotenv.config();
@@ -18,15 +21,27 @@ app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+// File storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+// Image routes
+app.post("/user/uploadBanner", upload.single("profile"), uploadProfile);
+app.post("/user/uploadProfile", upload.single("profile"), uploadProfile);
+
 // Routes
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 
 // Server setup
 const PORT = process.env.PORT || 6001;
 mongoose
-  .connect(
-    "mongodb+srv://app:DU84LXE88iNKbhhv@snac.cry4ako.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO_URL!)
   .then(() => {
     app.listen(PORT, () => console.log(`Server running on PORT: ${PORT}`));
   })

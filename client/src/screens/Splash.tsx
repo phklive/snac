@@ -4,7 +4,7 @@ import SnacLogoSVG from "../../assets/SnacLogoSVG";
 
 const Splash = () => {
   return (
-    <SafeAreaView className="h-full bg-gradient-to-b from-rose-400 via-fuchsia-500 to-indigo-500 flex flex-col items-center justify-center">
+    <SafeAreaView className="h-full bg-snacPurple flex flex-col items-center justify-center">
       <SnacLogoSVG color="" height={0} width={0} />
     </SafeAreaView>
   );

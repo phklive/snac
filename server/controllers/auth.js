@@ -25,18 +25,18 @@ export const checkEmail = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password, name } = req.body;
 
-    const lowerName = String(name).toLowerCase();
     const lowerEmail = String(email).toLowerCase();
+    const lowerName = String(name).toLowerCase();
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      name: lowerName,
       email: lowerEmail,
       password: passwordHash,
+      name: lowerName,
     });
 
     const savedUser = await newUser.save();
@@ -75,6 +75,6 @@ export const getMe = async (req, res) => {
     const user = await User.findById(id).select("-password");
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: "not able to get user" });
   }
 };
