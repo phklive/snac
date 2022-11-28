@@ -1,7 +1,5 @@
 import { Text, Image, View, FlatList, ListRenderItem } from "react-native";
-import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import React, { useState } from "react";
 
 interface StoryProps {
   user: User;
@@ -29,19 +27,6 @@ const StoryItem: React.FC<StoryProps> = ({ user }) => {
 
 const StoriesFeed = () => {
   const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const getStories = async () => {
-      let data = [];
-      const usersSnap = await getDocs(collection(db, "users"));
-      usersSnap.forEach((doc) => {
-        data.push(doc.data());
-      });
-      setUsers(data);
-    };
-
-    getStories();
-  }, []);
 
   const renderItem: ListRenderItem<User> = ({ item }) => {
     return <StoryItem user={item} />;

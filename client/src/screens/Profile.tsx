@@ -1,46 +1,11 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signOut } from "firebase/auth";
-import { auth, db } from "../utils/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { Feather } from "@expo/vector-icons";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        const user: User = {
-          uid: userData.uid,
-          name: userData.name,
-          description: userData.description,
-          email: userData.email,
-          favs: userData.favs,
-          score: userData.score,
-          snacs: userData.snacs,
-        };
-        setUser(user);
-      } else {
-        console.log("user does not exist");
-      }
-    };
-
-    getUser();
-  }, []);
-
-  const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
+  const { logout, user } = useContext(AuthContext);
 
   return (
     <SafeAreaView className="bg-snacPurple flex-1">

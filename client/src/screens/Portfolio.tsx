@@ -5,41 +5,16 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import PortfolioFeed from "../components/PortfolioFeed";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../utils/firebase";
 import { share } from "../utils/share";
+import { AuthContext } from "../context/AuthContext";
 
 const Portfolio = () => {
-  const [user, setUser] = useState<User>(null);
   const [created, setCreated] = useState(true);
 
-  useEffect(() => {
-    const getUser = async () => {
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      const userSnap = await getDoc(userDocRef);
-
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        const user: User = {
-          uid: userData.uid,
-          name: userData.name,
-          description: userData.description,
-          email: userData.email,
-          favs: userData.favs,
-          score: userData.score,
-          snacs: userData.snacs,
-        };
-        setUser(user);
-      } else {
-        console.log("user does not exist");
-      }
-    };
-
-    getUser();
-  }, []);
+  const { user } = useContext(AuthContext);
 
   return (
     <View className="bg-snacPurple h-full">

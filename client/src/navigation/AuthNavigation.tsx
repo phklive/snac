@@ -12,7 +12,7 @@ type AuthNavigationParamList = {
   Selection: undefined;
   Login: undefined;
   Register: undefined;
-  Name: undefined;
+  Name: { email: string; password: string };
   Congratulations: undefined;
 };
 

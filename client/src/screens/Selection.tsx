@@ -1,10 +1,12 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../components/Button";
 import Logo from "../../assets/LogoSVG";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorProp } from "../navigation/AuthNavigation";
 
 const Selection = () => {
+  const navigation = useNavigation<AuthNavigatorProp>();
   return (
     <ImageBackground source={require("../../assets/BG.png")}>
       <SafeAreaView className="flex flex-col items-center h-screen">
@@ -15,14 +17,22 @@ const Selection = () => {
           </Text>
         </View>
         <View className="flex flex-col w-full items-center justify-center mt-auto">
-          <Button style="" text="Login" to="Login" type="auth" color="black" />
-          <Button
-            style="mt-2"
-            text="Create an account"
-            to="Register"
-            type="auth"
-            color="outline"
-          />
+          <TouchableOpacity
+            className="w-3/4 rounded-full py-2 self-center mt-auto border border-snacGreen"
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text className="text-snacGreen text-center font-bold text-xl">
+              Login
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-2"
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text className="text-snacPurple text-center font-bold text-xl">
+              Create an account
+            </Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </ImageBackground>

@@ -8,54 +8,33 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { AuthPrimaryNavigatorProp } from "../navigation/types";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../utils/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { AuthNavigatorProp } from "../navigation/AuthNavigation";
+import axios from "axios";
+import { BASE_URL } from "../utils/config";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const navigation = useNavigation<AuthPrimaryNavigatorProp>();
+  const navigation = useNavigation<AuthNavigatorProp>();
 
-  const register = async () => {
+  const checkEmail = async () => {
     try {
       if (password.length < 6) {
         throw new Error("Password should be at least 6 characters.");
       }
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
+      await axios.post(`${BASE_URL}/auth/checkEmail`, {
         email,
-        password
-      );
-      const uid = userCredentials.user.uid;
-      const newUser: User = {
-        uid: uid,
-        name: "",
-        email: email,
-        description: "",
-        favs: [],
-        snacs: [],
-        score: 0,
-      };
-      await setDoc(doc(db, "users", uid), newUser);
-    } catch (error) {
-      if (error.message == "Firebase: Error (auth/email-already-in-use).") {
-        setError("Email already in use.");
-      } else if (error.message == "Firebase: Error (auth/invalid-email).") {
-        setError("Invalid email.");
-      } else if (error.message == "Firebase: Error (auth/internal-error).") {
-        setError("Form is invalid.");
-      } else {
-        setError(error.message);
-      }
+      });
+      navigation.navigate("Name", { email, password });
+    } catch (error: any) {
+      setError(error.message);
     }
   };
 
   return (
-    <SafeAreaView className="bg-snacPurple h-screen p-4">
+    <SafeAreaView className="bg-snacPurple flex-1 px-4">
       <Ionicons
         name="chevron-back"
         size={24}
@@ -91,7 +70,7 @@ const Register = () => {
       </KeyboardAvoidingView>
       <TouchableOpacity
         className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto"
-        onPress={register}
+        onPress={checkEmail}
       >
         <Text className="text-snacPurple text-center font-bold text-xl">
           Create an account

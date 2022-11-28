@@ -4,10 +4,11 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ExploreSVG from "../../assets/ExploreSVG";
 import PortfolioSVG from "../../assets/PortfolioSVG";
 import ProfileSVG from "../../assets/ProfileSVG";
+import { AuthContext } from "../context/AuthContext";
 import CreateDigi from "../screens/CreateDigi";
 import Digi from "../screens/Digi";
 import Edit from "../screens/Edit";
@@ -102,6 +103,12 @@ export type MainNavigatorProp =
 const MainStack = createBottomTabNavigator<MainNavigationParamList>();
 
 const MainNavigation: React.FC = () => {
+  const { setRefetch } = useContext(AuthContext);
+
+  useEffect(() => {
+    setRefetch(true);
+  }, []);
+
   return (
     <MainStack.Navigator
       initialRouteName="ExploreStackScreen"

@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { PrimaryNavigatorProp } from "../navigation/types";
+import { MainNavigatorProp } from "../navigation/MainNavigation";
 
 interface PortfolioFeedProps {
   user: User;
@@ -16,7 +16,7 @@ interface PortfolioFeedProps {
 }
 
 const PortFolioFeed: React.FC<PortfolioFeedProps> = ({ user, view }) => {
-  const navigation = useNavigation<PrimaryNavigatorProp>();
+  const navigation = useNavigation<MainNavigatorProp>();
 
   let data: Snac[] = [];
 
@@ -43,7 +43,11 @@ const PortFolioFeed: React.FC<PortfolioFeedProps> = ({ user, view }) => {
               </Text>
               <TouchableOpacity
                 className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-2"
-                onPress={() => navigation.navigate("CreateDigi")}
+                onPress={() =>
+                  navigation.navigate("PortfolioStackScreen", {
+                    screen: "CreateDigi",
+                  })
+                }
               >
                 <Text className="text-snacPurple text-center font-bold text-xl">
                   + Create Digi
@@ -57,7 +61,11 @@ const PortFolioFeed: React.FC<PortfolioFeedProps> = ({ user, view }) => {
               </Text>
               <TouchableOpacity
                 className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-2"
-                onPress={() => navigation.navigate("TabNavigation")}
+                onPress={() =>
+                  navigation.navigate("ExploreStackScreen", {
+                    screen: "Explore",
+                  })
+                }
               >
                 <Text className="text-snacPurple text-center font-bold text-xl">
                   Explore Digis

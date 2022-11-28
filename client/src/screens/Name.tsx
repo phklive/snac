@@ -5,41 +5,24 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { auth, db } from "../utils/firebase";
-import { PrimaryNavigatorProp } from "../navigation/types";
+import { AuthNavigatorProp } from "../navigation/AuthNavigation";
+import { AuthContext } from "../context/AuthContext";
 
-const Name = () => {
+const Name = ({ route }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
-  const navigation = useNavigation<PrimaryNavigatorProp>();
+  const navigation = useNavigation<AuthNavigatorProp>();
+  const { email, password } = route.params;
+  const { register } = useContext(AuthContext);
 
   const addName = async () => {
     try {
-      const q = query(collection(db, "users"), where("name", "==", name));
-      const querySnap = await getDocs(q);
-      if (querySnap.docs.length != 0) {
-        throw new Error("Name is already taken.");
-      }
-      const uid = auth.currentUser.uid;
-      const userDocRef = doc(db, "users", uid);
-      await updateDoc(userDocRef, {
-        name: name,
-      });
-      navigation.navigate("Congratulations");
+      register(name, email, password);
     } catch (error: any) {
       setError(error.message);
     }

@@ -1,10 +1,7 @@
 import { Text, SafeAreaView, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { PrimaryNavigatorProp } from "../navigation/types";
 
 const Congratulations = () => {
-  const navigation = useNavigation<PrimaryNavigatorProp>();
   return (
     <SafeAreaView className="bg-snacPurple flex flex-col justify-center items-center h-screen">
       <Image
@@ -17,7 +14,7 @@ const Congratulations = () => {
 
       <TouchableOpacity
         className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto"
-        onPress={() => navigation.navigate("TabNavigation")}
+        onPress={() => {}}
       >
         <Text className="text-snacPurple text-center font-bold text-xl">
           Continue
