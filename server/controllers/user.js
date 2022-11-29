@@ -1,4 +1,6 @@
+import { readFileSync } from "fs";
 import User from "../models/UserSchema";
+import { imagekit } from "../utils/imageKit";
 
 export const getUsers = async (req, res) => {
   try {
@@ -9,10 +11,75 @@ export const getUsers = async (req, res) => {
   }
 };
 
-export const getUser = async () => {};
+export const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.query.userId);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "user not found." });
+  }
+};
 
-export const updateUser = async () => {};
+export const updateText = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { name, bio } = req.body;
 
-export const uploadProfile = async () => {};
+    const user = await User.findByIdAndUpdate(
+      id,
+      { name: name, bio: bio },
+      { new: true }
+    );
 
-export const uploadBanner = async () => {};
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    const response = await imagekit.upload({
+      file: readFileSync("uploads/" + req.file.filename),
+      fileName: req.file.filename,
+    });
+
+    const imageUrl = response.url;
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { profile: imageUrl },
+      { new: true }
+    );
+
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateBanner = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    const response = await imagekit.upload({
+      file: readFileSync("uploads/" + req.file.filename),
+      fileName: req.file.filename,
+    });
+
+    const imageUrl = response.url;
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { banner: imageUrl },
+      { new: true }
+    );
+
+    res.status(201).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};

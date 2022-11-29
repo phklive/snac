@@ -42,36 +42,53 @@ const Portfolio = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="h-1/2 flex flex-col justify-end pb-4 p-4">
-          <TouchableOpacity
-            className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center mb-24"
-            onPress={() =>
-              navigation.navigate("PortfolioStackScreen", { screen: "Edit" })
-            }
-          >
-            <Text className="text-snacPink text-center font-bold text-xl">
-              + Add Banner
-            </Text>
-          </TouchableOpacity>
-          <View className="flex flex-row items-center">
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("PortfolioStackScreen", { screen: "Edit" })
-              }
-            >
+        <View className="h-1/2 flex flex-col justify-end">
+          <View className="flex-1 py-2 justify-center items-center">
+            {user.banner ? (
+              <Image source={{ uri: user.banner }} className="h-full w-full" />
+            ) : (
+              <TouchableOpacity
+                className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center"
+                onPress={() =>
+                  navigation.navigate("PortfolioStackScreen", {
+                    screen: "Edit",
+                  })
+                }
+              >
+                <Text className="text-snacPink text-center font-bold text-xl">
+                  + Add Banner
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View className="flex flex-row items-center p-4">
+            {user.profile ? (
               <Image
-                source={require("../../assets/profileAddPic.png")}
-                className="mr-4"
+                source={{ uri: user.profile }}
+                className="h-16 w-16 rounded-full mr-4"
               />
-            </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("PortfolioStackScreen", {
+                    screen: "Edit",
+                  })
+                }
+              >
+                <Image
+                  source={require("../../assets/profileAddPic.png")}
+                  className="h-16 w-16 mr-4"
+                />
+              </TouchableOpacity>
+            )}
             <View>
               {user?.name && (
                 <Text className="text-2xl text-white font-bold">
                   {user.name}
                 </Text>
               )}
-              {user?.description ? (
-                <Text className="text-white font-bold">{user.description}</Text>
+              {user?.bio ? (
+                <Text className="text-white font-bold">{user.bio}</Text>
               ) : (
                 <TouchableOpacity
                   onPress={() =>

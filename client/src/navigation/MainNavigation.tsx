@@ -90,7 +90,11 @@ const ProfileStackScreen = () => {
       screenOptions={{ headerShown: false }}
     >
       <ProfileStack.Screen name="Profile" component={Profile} />
-      <ProfileStack.Screen name="Settings" component={Settings} />
+      <ProfileStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ presentation: "modal" }}
+      />
     </ProfileStack.Navigator>
   );
 };

@@ -8,7 +8,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/user";
 import multer from "multer";
-import { uploadProfile, uploadBanner } from "./controllers/user";
+import { updateBanner, updateProfile } from "./controllers/user";
+import { verifyToken } from "./middleware/auth";
 
 // Configuration
 dotenv.config();
@@ -23,16 +24,30 @@ app.use(cors());
 
 // File storage
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, file.originalname);
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 
 const upload = multer({ storage });
 
 // Image routes
-app.post("/user/uploadBanner", upload.single("profile"), uploadProfile);
-app.post("/user/uploadProfile", upload.single("profile"), uploadProfile);
+app.post(
+  "/user/updateBanner",
+  upload.single("banner"),
+  verifyToken,
+  updateBanner
+);
+
+app.post(
+  "/user/updateProfile",
+  upload.single("profile"),
+  verifyToken,
+  updateProfile
+);
 
 // Routes
 app.use("/auth", authRoutes);

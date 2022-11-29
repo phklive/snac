@@ -2,14 +2,6 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
-    banner: {
-      data: Buffer,
-      type: String,
-    },
-    profile: {
-      data: Buffer,
-      type: String,
-    },
     name: {
       type: String,
       require: true,
@@ -33,7 +25,10 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    description: String,
+    score: Number,
+    bio: String,
+    banner: String,
+    profile: String,
   },
   { timestamps: true }
 );

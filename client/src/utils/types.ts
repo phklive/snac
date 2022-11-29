@@ -3,9 +3,11 @@ type User = {
   name: string;
   email: string;
   score: number;
+  bio: string;
+  banner: string;
+  profile: string;
   favs: [];
   snacs: [];
-  description: string;
 };
 
 type Snac = {
