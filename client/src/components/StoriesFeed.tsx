@@ -32,7 +32,7 @@ const StoryItem: React.FC<StoryProps> = ({ user }) => {
 
 const StoriesFeed = () => {
   const [users, setUsers] = useState([]);
-  const { userToken } = useContext(AuthContext);
+  const { userToken, user } = useContext(AuthContext);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -53,6 +53,7 @@ const StoriesFeed = () => {
   }, []);
 
   const renderItem: ListRenderItem<User> = ({ item }) => {
+    if (user._id == item._id) return;
     return <StoryItem user={item} />;
   };
 

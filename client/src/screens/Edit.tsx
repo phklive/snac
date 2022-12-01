@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -9,7 +16,7 @@ import { BASE_URL } from "../utils/config";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
 
 const Edit = () => {
-  const { user, userToken } = useContext(AuthContext);
+  const { user, userToken, setUser } = useContext(AuthContext);
 
   const [bannerImage, setBannerImage] = useState<string>(user.banner);
   const [profileImage, setProfileImage] = useState<string>(user.profile);
@@ -128,6 +135,16 @@ const Edit = () => {
           },
         }
       );
+
+      const res = await axios.get(`${BASE_URL}/auth/getMe`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      const newUser = res.data;
+
+      setUser(newUser);
+
       navigation.navigate("PortfolioStackScreen", { screen: "Portfolio" });
     } catch (error: any) {
       console.log(error.message);
@@ -135,7 +152,10 @@ const Edit = () => {
   };
 
   return (
-    <View className="flex-1 bg-snacPurple pt-4">
+    <KeyboardAvoidingView
+      className="flex-1 bg-snacPurple pt-4"
+      behavior="padding"
+    >
       <View className="flex flex-row justify-between px-2 items-center">
         <TouchableOpacity
           className="bg-white/10 rounded-full p-1"
@@ -199,14 +219,10 @@ const Edit = () => {
         <TextInput
           value={bio}
           onChangeText={(text) => setBio(text)}
-          className="bg-white rounded p-2 font-bold text-black mt-2 h-32"
-          multiline={true}
-          maxLength={50}
-          numberOfLines={8}
-          style={{ height: 150, textAlignVertical: "top" }}
+          className="bg-white rounded p-2 font-bold text-black mt-2"
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

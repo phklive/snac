@@ -15,6 +15,7 @@ import Digi from "../screens/Digi";
 import Edit from "../screens/Edit";
 import Explore from "../screens/Explore";
 import Portfolio from "../screens/Portfolio";
+import Checkout from "../screens/Checkout";
 import Profile from "../screens/Profile";
 import Search from "../screens/Search";
 import Settings from "../screens/Settings";
@@ -23,8 +24,30 @@ import User from "../screens/User";
 
 type ExploreStackParamList = {
   Explore: undefined;
-  User: undefined;
-  Digi: undefined;
+  User: {
+    id: string;
+  };
+
+  Checkout: {
+    image: string;
+    description: string;
+    title: string;
+    price: number;
+    owner: string;
+    likes: number;
+    id: string;
+  };
+
+  Digi: {
+    image: string;
+    description: string;
+    title: string;
+    price: number;
+    owner: string;
+    likes: number;
+    id: string;
+  };
+
   Stories: undefined;
   Search: undefined;
 };
@@ -39,6 +62,7 @@ const ExploreStackScreen = () => {
     >
       <ExploreStack.Screen name="Explore" component={Explore} />
       <ExploreStack.Screen name="User" component={User} />
+      <ExploreStack.Screen name="Checkout" component={Checkout} />
       <ExploreStack.Screen name="Digi" component={Digi} />
       <ExploreStack.Screen name="Stories" component={Stories} />
       <ExploreStack.Screen
@@ -64,7 +88,14 @@ type PortfolioStackParamList = {
     title: string;
   };
   Edit: undefined;
-  Digi: undefined;
+  Digi: {
+    image: string;
+    description: string;
+    title: string;
+    price: number;
+    owner: string;
+    likes: number;
+  };
 };
 
 const PortfolioStack = createNativeStackNavigator<PortfolioStackParamList>();
@@ -135,15 +166,7 @@ const MainNavigation: React.FC = () => {
           backgroundColor: "#1D0A32",
           borderTopWidth: 0,
           marginTop: 0,
-        },
-        style: {
-          backgroundColor: "transparent",
-          borderTopWidth: 0,
-          position: "absolute",
-          left: 50,
-          right: 50,
-          bottom: 20,
-          height: 100,
+          height: 90,
         },
         tabBarShowLabel: false,
         lazy: true,

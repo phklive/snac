@@ -1,12 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-interface IconProps {
-  height: number;
-  width: number;
-  color: string;
-}
-
-const Icon: React.FC<IconProps> = ({ height, width, color }) => {
+const Icon: React.FC = () => {
   return (
     <Svg width="212" height="76" viewBox="0 0 212 76" fill="none">
       <Path

@@ -5,11 +5,11 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { MainNavigatorProp } from "../navigation/MainNavigation";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
+import { MainNavigatorProp } from "../navigation/MainNavigation";
 
-const Digi = ({ route }) => {
+const Checkout = ({ route }) => {
   const { image, title, description, price, owner, likes, id } = route.params;
   const { user, userToken, setRefetchUserDigis } = useContext(AuthContext);
   const navigation = useNavigation<MainNavigatorProp>();
@@ -52,6 +52,7 @@ const Digi = ({ route }) => {
           />
         </TouchableOpacity>
       </View>
+      <Text className="text-white text-xl text-center font-bold">Checkout</Text>
       <View className="flex-1">
         <Image
           source={{ uri: image }}
@@ -88,4 +89,4 @@ const Digi = ({ route }) => {
   );
 };
 
-export default Digi;
+export default Checkout;

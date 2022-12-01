@@ -17,26 +17,37 @@ import axios from "axios";
 import { BASE_URL } from "../utils/config";
 
 const Portfolio = () => {
-  const [digis, setDigis] = useState<Digi[]>([]);
+  const [collectedDigis, setCollectedDigis] = useState<Digi[]>([]);
+  const [createdDigis, setCreatedDigis] = useState<Digi[]>([]);
   const [created, setCreated] = useState(true);
   const navigation = useNavigation<MainNavigatorProp>();
-  const { userToken, user } = useContext(AuthContext);
+  const { userToken, user, refetchUserDigis } = useContext(AuthContext);
 
   useEffect(() => {
     const getUserDigis = async () => {
-      const res = await axios.get(`${BASE_URL}/digi/getUserDigis`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const res = await axios.get(
+        `${BASE_URL}/digi/getUserDigis/?userId=${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
 
-      const data = res.data;
+      const data: Digi[] = res.data;
 
-      setDigis(data);
+      const createdDigis = data.filter((digi) => digi.creator == user._id);
+
+      const collectedDigis = data.filter(
+        (digi) => digi.creator != user._id && digi.owner == user._id
+      );
+
+      setCreatedDigis(createdDigis);
+      setCollectedDigis(collectedDigis);
     };
 
     getUserDigis();
-  }, []);
+  }, [refetchUserDigis]);
 
   return (
     <View className="flex-1">
@@ -66,15 +77,17 @@ const Portfolio = () => {
             </TouchableOpacity>
           </View>
 
-          <Image
-            source={{ uri: user.banner }}
-            className="h-96 w-full absolute -z-10"
-          />
+          {user.banner && (
+            <Image
+              source={{ uri: user.banner }}
+              className="h-96 w-full absolute -z-10"
+            />
+          )}
 
           <View className="flex flex-col justify-end">
             {!user.banner && (
               <TouchableOpacity
-                className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center"
+                className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center absolute top-32"
                 onPress={() =>
                   navigation.navigate("PortfolioStackScreen", {
                     screen: "Edit",
@@ -142,7 +155,7 @@ const Portfolio = () => {
                   created ? "text-white" : "text-snacPurple2"
                 } text-xl text-center`}
               >
-                Created 0
+                Created {createdDigis.length}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -156,7 +169,7 @@ const Portfolio = () => {
                   created ? "text-snacPurple2" : "text-white"
                 } text-xl text-center`}
               >
-                Collected 0
+                Collected {collectedDigis.length}
               </Text>
             </TouchableOpacity>
           </View>
@@ -176,40 +189,75 @@ const Portfolio = () => {
               </TouchableOpacity>
             )}
             <View className="flex flex-row flex-wrap mt-2">
-              {digis
-                .filter((digi) => {
-                  if (created) {
-                    return digi.creator == user._id;
-                  } else {
-                    return digi.owner == user._id && digi.creator != user._id;
-                  }
-                })
-                .map((digi) => {
-                  return (
-                    <View className="w-1/2 p-2" key={digi._id}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate("PortfolioStackScreen", {
-                            screen: "Digi",
-                          })
-                        }
-                      >
-                        <Image
-                          source={{ uri: digi.image }}
-                          className="h-60 w-full self-center rounded-2xl"
-                        />
-                      </TouchableOpacity>
-                      <Text className="text-white text-2xl my-2">
-                        {digi.title}
-                      </Text>
-                      <View className="w-1/2 rounded-full py-2 bg-snacGreen mb-2 ">
-                        <Text className="text-snacPurple text-center text-lg">
-                          ${digi.price}
+              {created
+                ? createdDigis.map((digi) => {
+                    return (
+                      <View className="w-1/2 p-2" key={digi._id}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate("PortfolioStackScreen", {
+                              screen: "Digi",
+                              params: {
+                                title: digi.title,
+                                price: digi.price,
+                                description: digi.description,
+                                image: digi.image,
+                                owner: digi.owner,
+                                likes: digi.likes,
+                              },
+                            })
+                          }
+                        >
+                          <Image
+                            source={{ uri: digi.image }}
+                            className="h-60 w-full self-center rounded-2xl"
+                          />
+                        </TouchableOpacity>
+                        <Text className="text-white text-2xl my-2">
+                          {digi.title}
                         </Text>
+                        <View className="w-1/2 rounded-full py-2 bg-snacGreen mb-2 ">
+                          <Text className="text-snacPurple text-center text-lg">
+                            ${digi.price}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                  );
-                })}
+                    );
+                  })
+                : collectedDigis.map((digi) => {
+                    return (
+                      <View className="w-1/2 p-2" key={digi._id}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate("PortfolioStackScreen", {
+                              screen: "Digi",
+                              params: {
+                                title: digi.title,
+                                price: digi.price,
+                                description: digi.description,
+                                image: digi.image,
+                                owner: digi.owner,
+                                likes: digi.likes,
+                              },
+                            })
+                          }
+                        >
+                          <Image
+                            source={{ uri: digi.image }}
+                            className="h-60 w-full self-center rounded-2xl"
+                          />
+                        </TouchableOpacity>
+                        <Text className="text-white text-2xl my-2">
+                          {digi.title}
+                        </Text>
+                        <View className="w-1/2 rounded-full py-2 bg-snacGreen mb-2 ">
+                          <Text className="text-snacPurple text-center text-lg">
+                            ${digi.price}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })}
             </View>
           </View>
         </SafeAreaView>

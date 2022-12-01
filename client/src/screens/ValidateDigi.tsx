@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
 
 const ValidateDigi = ({ route }) => {
-  const { user, userToken } = useContext(AuthContext);
+  const { user, userToken, setRefetchUserDigis } = useContext(AuthContext);
   const { title, price, description, image } = route.params;
   const navigation = useNavigation<MainNavigatorProp>();
 
@@ -32,6 +32,8 @@ const ValidateDigi = ({ route }) => {
         },
       });
 
+      setRefetchUserDigis(true);
+
       navigation.navigate("PortfolioStackScreen", {
         screen: "CongratulationsDigi",
         params: {
@@ -52,9 +54,7 @@ const ValidateDigi = ({ route }) => {
       <View className="h-1/2 flex items-center justify-center">
         <Image
           source={{
-            uri:
-              image ||
-              "https://www.cdc.gov/healthypets/images/pets/cute-dog-headshot.jpg?_=42445",
+            uri: image,
           }}
           className="h-3/4 w-3/4 rounded"
         />
@@ -64,7 +64,11 @@ const ValidateDigi = ({ route }) => {
         <Text className="text-white text-xl mb-2">{description}</Text>
         <View className="flex flex-row items-center ">
           <Image
-            source={{ uri: user.profile }}
+            source={{
+              uri:
+                user.profile ||
+                "https://www.cdc.gov/healthypets/images/pets/cute-dog-headshot.jpg?_=42445",
+            }}
             className="h-16 w-16 rounded-full"
           />
           <Text className="text-white ml-2">0x24bFBaFc7Ca50cf53f07</Text>

@@ -19,4 +19,6 @@ type Digi = {
   creator: string;
   likes: number;
   description: string;
+  ownerImage: string;
+  ownerName: string;
 };

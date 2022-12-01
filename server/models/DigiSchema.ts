@@ -15,6 +15,8 @@ export const DigiSchema = new Schema(
       require: true,
     },
     image: String,
+    ownerImage: String,
+    ownerName: String,
     creator: String,
     owner: String,
     likes: Number,

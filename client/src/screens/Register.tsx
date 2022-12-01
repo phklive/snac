@@ -72,7 +72,7 @@ const Register = () => {
         />
       </KeyboardAvoidingView>
       <TouchableOpacity
-        className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto"
+        className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto mb-8"
         onPress={checkEmail}
       >
         <Text className="text-snacPurple text-center font-bold text-xl">
