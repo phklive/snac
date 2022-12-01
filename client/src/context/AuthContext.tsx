@@ -72,8 +72,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = async () => {
     try {
       await SecureStore.deleteItemAsync("token");
-      setUser(null);
       setUserToken("");
+      setUser(null);
     } catch (error: any) {
       console.log("logout failed.");
     }
@@ -93,8 +93,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUserToken(token);
       console.log("Found user token");
     } catch (error: any) {
-      setUser(null);
-      setUserToken("");
       console.log(error.message);
     }
   };

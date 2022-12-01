@@ -1,5 +1,5 @@
 type User = {
-  uid: string;
+  _id: string;
   name: string;
   email: string;
   score: number;
@@ -10,11 +10,13 @@ type User = {
   snacs: [];
 };
 
-type Snac = {
-  uid: string;
+type Digi = {
+  _id: string;
   title: string;
+  image: string;
   price: number;
   owner: string;
   creator: string;
   likes: number;
+  description: string;
 };

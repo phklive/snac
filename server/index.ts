@@ -7,9 +7,11 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/user";
+import digiRoutes from "./routes/digi";
 import multer from "multer";
 import { updateBanner, updateProfile } from "./controllers/user";
 import { verifyToken } from "./middleware/auth";
+import { createDigi } from "./controllers/digi";
 
 // Configuration
 dotenv.config();
@@ -49,9 +51,12 @@ app.post(
   updateProfile
 );
 
+app.post("/digi/createDigi", upload.single("digi"), verifyToken, createDigi);
+
 // Routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/digi", digiRoutes);
 
 // Server setup
 const PORT = process.env.PORT || 6001;

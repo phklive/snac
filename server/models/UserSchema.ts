@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { DigiSchema } from "./DigiSchema";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -18,11 +19,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     favs: {
-      type: Array,
-      default: [],
-    },
-    snacs: {
-      type: Array,
+      type: [String],
       default: [],
     },
     score: Number,

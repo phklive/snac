@@ -2,7 +2,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import Congratulations from "../screens/Congratulations";
+import AccountCreated from "../screens/AccountCreated";
 import Login from "../screens/Login";
 import Name from "../screens/Name";
 import Register from "../screens/Register";
@@ -13,7 +13,7 @@ type AuthNavigationParamList = {
   Login: undefined;
   Register: undefined;
   Name: { email: string; password: string };
-  Congratulations: undefined;
+  AccountCreated: undefined;
 };
 
 export type AuthNavigatorProp =
@@ -31,7 +31,7 @@ const AuthNavigation = () => {
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
       <AuthStack.Screen name="Name" component={Name} />
-      <AuthStack.Screen name="Congratulations" component={Congratulations} />
+      <AuthStack.Screen name="AccountCreated" component={AccountCreated} />
     </AuthStack.Navigator>
   );
 };

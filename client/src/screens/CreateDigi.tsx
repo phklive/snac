@@ -7,9 +7,9 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 const CreateDigi = () => {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const navigation = useNavigation<MainNavigatorProp>();
 
@@ -29,6 +29,18 @@ const CreateDigi = () => {
     } catch (error: any) {
       console.log(error);
     }
+  };
+
+  const createDigiHandler = () => {
+    navigation.navigate("PortfolioStackScreen", {
+      screen: "ValidateDigi",
+      params: {
+        description: description,
+        image: image,
+        title: title,
+        price: parseInt(price),
+      },
+    });
   };
 
   return (
@@ -55,7 +67,15 @@ const CreateDigi = () => {
       />
       <View className=" h-1/2 flex flex-col items-center justify-center py-4">
         {image ? (
-          <Image source={{ uri: image }} className="h-full w-full" />
+          <TouchableOpacity
+            className="h-3/4 w-3/4 rounded"
+            onPress={uploadImage}
+          >
+            <Image
+              source={{ uri: image }}
+              className="h-full w-full mb-2 rounded"
+            />
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity
             className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2"
@@ -67,17 +87,18 @@ const CreateDigi = () => {
           </TouchableOpacity>
         )}
       </View>
-      <View className="flex flex-col px-4">
-        <Text className="text-white">Name</Text>
+      <View className="flex flex-col px-4  -mt-6">
+        <Text className="text-white">Title</Text>
         <TextInput
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={title}
+          onChangeText={(text) => setTitle(text)}
           className="bg-white rounded p-2 font-bold text-black mt-2"
         />
         <Text className="text-white mt-4">Price</Text>
         <TextInput
-          value={name}
-          onChangeText={(text) => setPrice(parseInt(text))}
+          keyboardType="numeric"
+          value={price}
+          onChangeText={(text) => setPrice(text)}
           className="bg-white rounded p-2 font-bold text-black mt-2"
         />
         <Text className=" text-white mt-4">Description</Text>
@@ -87,15 +108,15 @@ const CreateDigi = () => {
           className="bg-white rounded p-2 font-bold text-black mt-2 h-32"
           multiline={true}
           numberOfLines={8}
-          style={{ height: 150, textAlignVertical: "top" }}
+          style={{ height: 100, textAlignVertical: "top" }}
         />
       </View>
       <TouchableOpacity
-        className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto"
-        onPress={() => {}}
+        className="w-3/4 rounded-full py-2 bg-snacGreen self-center mt-auto -mb-2"
+        onPress={createDigiHandler}
       >
         <Text className="text-snacPurple text-center font-bold text-xl">
-          Create Digi
+          Continue
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

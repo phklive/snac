@@ -8,7 +8,7 @@ const Settings = () => {
   const navigation = useNavigation<MainNavigatorProp>();
   return (
     <View className="flex-1 bg-snacPurple pt-4">
-      <Text className="text-xl text-white font-bold text-center">Search</Text>
+      <Text className="text-xl text-white font-bold text-center">Settings</Text>
       <TouchableOpacity
         className="bg-white/10 rounded-full p-1 self-end absolute top-4 right-4"
         onPress={() => navigation.goBack()}

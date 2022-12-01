@@ -4,12 +4,13 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import ExploreSVG from "../../assets/ExploreSVG";
 import PortfolioSVG from "../../assets/PortfolioSVG";
 import ProfileSVG from "../../assets/ProfileSVG";
-import { AuthContext } from "../context/AuthContext";
 import CreateDigi from "../screens/CreateDigi";
+import ValidateDigi from "../screens/ValidateDigi";
+import CongratulationsDigi from "../screens/CongratulationsDigi";
 import Digi from "../screens/Digi";
 import Edit from "../screens/Edit";
 import Explore from "../screens/Explore";
@@ -52,6 +53,16 @@ const ExploreStackScreen = () => {
 type PortfolioStackParamList = {
   Portfolio: undefined;
   CreateDigi: undefined;
+  ValidateDigi: {
+    image: string;
+    title: string;
+    price: number;
+    description: string;
+  };
+  CongratulationsDigi: {
+    image: string;
+    title: string;
+  };
   Edit: undefined;
   Digi: undefined;
 };
@@ -66,6 +77,11 @@ const PortfolioStackScreen = () => {
     >
       <PortfolioStack.Screen name="Portfolio" component={Portfolio} />
       <PortfolioStack.Screen name="CreateDigi" component={CreateDigi} />
+      <PortfolioStack.Screen name="ValidateDigi" component={ValidateDigi} />
+      <PortfolioStack.Screen
+        name="CongratulationsDigi"
+        component={CongratulationsDigi}
+      />
       <PortfolioStack.Screen
         name="Edit"
         component={Edit}
