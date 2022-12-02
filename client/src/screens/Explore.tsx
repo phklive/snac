@@ -11,7 +11,7 @@ import {
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../assets/LogoSVG";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
@@ -22,6 +22,7 @@ const Explore = () => {
   const [refreshFeed, setRefreshFeed] = useState<boolean>(false);
   const { userToken, user } = useContext(AuthContext);
   const navigation = useNavigation<MainNavigatorProp>();
+  const isFocused = useIsFocused();
 
   const flatListRef = useRef<FlatList>();
 
@@ -44,7 +45,7 @@ const Explore = () => {
     };
 
     getDigis();
-  }, [refreshFeed]);
+  }, [refreshFeed, isFocused]);
 
   const refreshFeedHandler = () => {
     setRefreshFeed(true);
@@ -116,11 +117,11 @@ const Explore = () => {
 
   return (
     <View className="bg-snacPurple flex-1">
-      <View className="absolute z-10 flex w-full top-12 justify-center items-center">
+      <View className="absolute z-10 flex w-full top-16 justify-center items-center">
         <Logo color="#8CFFAC" height={29} width={80} />
       </View>
       <TouchableOpacity
-        className="bg-white/20 rounded-full p-1 absolute top-12 right-4 z-20"
+        className="bg-white/20 rounded-full p-1 absolute top-16 right-4 z-20"
         onPress={() =>
           navigation.navigate("ExploreStackScreen", { screen: "Search" })
         }

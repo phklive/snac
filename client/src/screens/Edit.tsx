@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -14,10 +15,13 @@ import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
+import SnacLogoSVG from "../../assets/SnacLogoSVG";
+import Loader from "./Loader";
 
 const Edit = () => {
   const { user, userToken, setUser } = useContext(AuthContext);
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [bannerImage, setBannerImage] = useState<string>(user.banner);
   const [profileImage, setProfileImage] = useState<string>(user.profile);
   const [name, setName] = useState(user.name);
@@ -62,6 +66,7 @@ const Edit = () => {
   };
 
   const saveProfile = async () => {
+    setLoading(true);
     try {
       if (user.banner != bannerImage && user.profile != profileImage) {
         try {
@@ -144,85 +149,92 @@ const Edit = () => {
       const newUser = res.data;
 
       setUser(newUser);
-
+      setLoading(false);
       navigation.navigate("PortfolioStackScreen", { screen: "Portfolio" });
     } catch (error: any) {
       console.log(error.message);
+      setLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView
-      className="flex-1 bg-snacPurple pt-4"
-      behavior="padding"
-    >
-      <View className="flex flex-row justify-between px-2 items-center">
-        <TouchableOpacity
-          className="bg-white/10 rounded-full p-1"
-          onPress={() => navigation.goBack()}
-        >
-          <Feather name="x" size={24} color="white" />
-        </TouchableOpacity>
-        <Text className="text-white text-2xl font-bold">Edit Profile</Text>
-        <TouchableOpacity onPress={saveProfile}>
-          <Text className="text-snacPink text-lg font-bold">Save</Text>
-        </TouchableOpacity>
-      </View>
-      <Image
-        source={require("../../assets/space.png")}
-        className="w-full absolute -z-10"
-      />
-      <View className="h-1/2 mt-4 flex flex-col justify-center items-center ">
-        <View className="flex-1  w-full flex items-center justify-center">
-          {bannerImage ? (
-            <TouchableOpacity className="h-full w-full" onPress={uploadBanner}>
-              <Image
-                source={{ uri: bannerImage }}
-                className="h-full w-full mb-2"
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center mb-24 "
-              onPress={uploadBanner}
-            >
-              <Text className="text-snacPink text-center font-bold text-xl">
-                + Add image
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <View className="flex flex-row justify-start w-full px-4 my-4">
-          <TouchableOpacity onPress={uploadProfile}>
-            {profileImage ? (
-              <Image
-                source={{ uri: profileImage }}
-                className="h-16 w-16 rounded-full"
-              />
-            ) : (
-              <Image
-                source={require("../../assets/profileAddPic.png")}
-                className="mr-4 h-16 w-16"
-              />
-            )}
+    <>
+      <KeyboardAvoidingView
+        className="flex-1 bg-snacPurple pt-4"
+        behavior="padding"
+      >
+        <View className="flex flex-row justify-between px-2 items-center">
+          <TouchableOpacity
+            className="bg-white/10 rounded-full p-1"
+            onPress={() => navigation.goBack()}
+          >
+            <Feather name="x" size={24} color="white" />
+          </TouchableOpacity>
+          <Text className="text-white text-2xl font-bold">Edit Profile</Text>
+          <TouchableOpacity onPress={saveProfile}>
+            <Text className="text-snacPink text-lg font-bold">Save</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View className="flex flex-col px-4">
-        <Text className="text-white">Name</Text>
-        <TextInput
-          value={name}
-          onChangeText={(text) => setName(text)}
-          className="bg-white rounded p-2 font-bold text-black mt-2"
+        <Image
+          source={require("../../assets/space.png")}
+          className="w-full absolute -z-10"
         />
-        <Text className=" text-white mt-4">Bio</Text>
-        <TextInput
-          value={bio}
-          onChangeText={(text) => setBio(text)}
-          className="bg-white rounded p-2 font-bold text-black mt-2"
-        />
-      </View>
-    </KeyboardAvoidingView>
+        <View className="h-1/2 mt-4 flex flex-col justify-center items-center ">
+          <View className="flex-1  w-full flex items-center justify-center">
+            {bannerImage ? (
+              <TouchableOpacity
+                className="h-full w-full"
+                onPress={uploadBanner}
+              >
+                <Image
+                  source={{ uri: bannerImage }}
+                  className="h-full w-full mb-2"
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center mb-24 "
+                onPress={uploadBanner}
+              >
+                <Text className="text-snacPink text-center font-bold text-xl">
+                  + Add image
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View className="flex flex-row justify-start w-full px-4 my-4">
+            <TouchableOpacity onPress={uploadProfile}>
+              {profileImage ? (
+                <Image
+                  source={{ uri: profileImage }}
+                  className="h-16 w-16 rounded-full"
+                />
+              ) : (
+                <Image
+                  source={require("../../assets/profileAddPic.png")}
+                  className="mr-4 h-16 w-16"
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="flex flex-col px-4">
+          <Text className="text-white">Name</Text>
+          <TextInput
+            value={name}
+            onChangeText={(text) => setName(text)}
+            className="bg-white rounded p-2 font-bold text-black mt-2"
+          />
+          <Text className=" text-white mt-4">Bio</Text>
+          <TextInput
+            value={bio}
+            onChangeText={(text) => setBio(text)}
+            className="bg-white rounded p-2 font-bold text-black mt-2"
+          />
+        </View>
+      </KeyboardAvoidingView>
+      {loading && <Loader />}
+    </>
   );
 };
 

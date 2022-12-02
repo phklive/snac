@@ -1,16 +1,9 @@
-import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { share } from "../utils/share";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
@@ -21,7 +14,8 @@ const Portfolio = () => {
   const [createdDigis, setCreatedDigis] = useState<Digi[]>([]);
   const [created, setCreated] = useState(true);
   const navigation = useNavigation<MainNavigatorProp>();
-  const { userToken, user, refetchUserDigis } = useContext(AuthContext);
+  const isFocused = useIsFocused();
+  const { userToken, user } = useContext(AuthContext);
 
   useEffect(() => {
     const getUserDigis = async () => {
@@ -47,7 +41,7 @@ const Portfolio = () => {
     };
 
     getUserDigis();
-  }, [refetchUserDigis]);
+  }, [isFocused]);
 
   return (
     <View className="flex-1">
