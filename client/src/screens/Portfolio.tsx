@@ -1,4 +1,11 @@
-import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { share } from "../utils/share";
@@ -54,7 +61,7 @@ const Portfolio = () => {
             source={require("../../assets/space.png")}
             className="w-full absolute -z-10"
           />
-          <View className="flex flex-row justify-end items-center">
+          <View className="flex flex-row justify-end items-center ">
             <TouchableOpacity
               className="bg-white/10 rounded-full px-2 py-1 mx-2"
               onPress={() =>
@@ -78,7 +85,15 @@ const Portfolio = () => {
             />
           )}
 
-          <View className="flex flex-col justify-end">
+          <View className="flex flex-col justify-end relative">
+            <Image
+              source={require("../../assets/d1.png")}
+              className="absolute left-0 bottom-52"
+            />
+            <Image
+              source={require("../../assets/d2.png")}
+              className="absolute left-0 bottom-28"
+            />
             {!user.banner && (
               <TouchableOpacity
                 className="w-1/2 rounded-full py-2 bg-snacPurple border border-snacPurple2 self-center absolute top-32"
@@ -198,6 +213,7 @@ const Portfolio = () => {
                                 image: digi.image,
                                 owner: digi.owner,
                                 likes: digi.likes,
+                                from: "PortfolioStackScreen",
                               },
                             })
                           }
@@ -232,6 +248,7 @@ const Portfolio = () => {
                                 image: digi.image,
                                 owner: digi.owner,
                                 likes: digi.likes,
+                                from: "PortfolioStackScreen",
                               },
                             })
                           }

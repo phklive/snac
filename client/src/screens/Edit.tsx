@@ -6,6 +6,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -66,6 +67,7 @@ const Edit = () => {
   };
 
   const saveProfile = async () => {
+    Keyboard.dismiss();
     setLoading(true);
     try {
       if (user.banner != bannerImage && user.profile != profileImage) {

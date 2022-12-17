@@ -7,6 +7,7 @@ import {
 import React from "react";
 import ExploreSVG from "../../assets/ExploreSVG";
 import PortfolioSVG from "../../assets/PortfolioSVG";
+import CreamLogo from "../../assets/CreamLogo";
 import ProfileSVG from "../../assets/ProfileSVG";
 import CreateDigi from "../screens/CreateDigi";
 import ValidateDigi from "../screens/ValidateDigi";
@@ -21,6 +22,9 @@ import Search from "../screens/Search";
 import Settings from "../screens/Settings";
 import Stories from "../screens/Stories";
 import User from "../screens/User";
+import CongratulationsBuy from "../screens/CongratulationsBuy";
+import { Image } from "react-native";
+import CreateDigi2 from "../screens/CreateDigi2";
 
 type ExploreStackParamList = {
   Explore: undefined;
@@ -46,10 +50,14 @@ type ExploreStackParamList = {
     owner: string;
     likes: number;
     id: string;
+    from: string;
   };
 
   Stories: undefined;
   Search: undefined;
+  CongratulationsBuy: {
+    image: string;
+  };
 };
 
 const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
@@ -65,6 +73,10 @@ const ExploreStackScreen = () => {
       <ExploreStack.Screen name="Checkout" component={Checkout} />
       <ExploreStack.Screen name="Digi" component={Digi} />
       <ExploreStack.Screen name="Stories" component={Stories} />
+      <ExploreStack.Screen
+        name="CongratulationsBuy"
+        component={CongratulationsBuy}
+      />
       <ExploreStack.Screen
         name="Search"
         component={Search}
@@ -95,6 +107,10 @@ type PortfolioStackParamList = {
     price: number;
     owner: string;
     likes: number;
+    from: string;
+  };
+  CongratulationsBuy: {
+    image: string;
   };
 };
 
@@ -110,6 +126,10 @@ const PortfolioStackScreen = () => {
       <PortfolioStack.Screen name="CreateDigi" component={CreateDigi} />
       <PortfolioStack.Screen name="ValidateDigi" component={ValidateDigi} />
       <PortfolioStack.Screen
+        name="CongratulationsBuy"
+        component={CongratulationsBuy}
+      />
+      <PortfolioStack.Screen
         name="CongratulationsDigi"
         component={CongratulationsDigi}
       />
@@ -124,8 +144,7 @@ const PortfolioStackScreen = () => {
 };
 
 type ProfileStackParamList = {
-  Profile: undefined;
-  Settings: undefined;
+  createDigi: undefined;
 };
 
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
@@ -133,15 +152,10 @@ const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 const ProfileStackScreen = () => {
   return (
     <ProfileStack.Navigator
-      initialRouteName="Profile"
+      initialRouteName="createDigi"
       screenOptions={{ headerShown: false }}
     >
-      <ProfileStack.Screen name="Profile" component={Profile} />
-      <ProfileStack.Screen
-        name="Settings"
-        component={Settings}
-        options={{ presentation: "modal" }}
-      />
+      <ProfileStack.Screen name="createDigi" component={CreateDigi2} />
     </ProfileStack.Navigator>
   );
 };
@@ -175,14 +189,14 @@ const MainNavigation: React.FC = () => {
           let color: string;
 
           if (route.name === "ExploreStackScreen") {
-            color = focused ? "#8CFFAC" : "#BEAED2";
-            return <ExploreSVG height={31} width={31} color={color} />;
-          } else if (route.name === "PortfolioStackScreen") {
-            color = focused ? "#8CFFAC" : "#BEAED2";
-            return <PortfolioSVG height={31} width={31} color={color} />;
+            color = focused ? "#FFF" : "#BEAED2";
+            return <CreamLogo height={40} width={40} color={color} />;
           } else if (route.name === "ProfileStackScreen") {
             color = focused ? "#8CFFAC" : "#BEAED2";
-            return <ProfileSVG height={31} width={31} color={color} />;
+            return <Image source={require("../../assets/CreateDigi.png")} />;
+          } else if (route.name === "PortfolioStackScreen") {
+            color = focused ? "#FFF" : "#BEAED2";
+            return <ProfileSVG height={40} width={40} color={color} />;
           }
         },
       })}
@@ -192,12 +206,12 @@ const MainNavigation: React.FC = () => {
         component={ExploreStackScreen}
       />
       <MainStack.Screen
-        name="PortfolioStackScreen"
-        component={PortfolioStackScreen}
-      />
-      <MainStack.Screen
         name="ProfileStackScreen"
         component={ProfileStackScreen}
+      />
+      <MainStack.Screen
+        name="PortfolioStackScreen"
+        component={PortfolioStackScreen}
       />
     </MainStack.Navigator>
   );

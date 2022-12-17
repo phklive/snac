@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import { Video } from "expo-av";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../assets/LogoSVG";
 import { Feather } from "@expo/vector-icons";
@@ -16,6 +17,7 @@ import { MainNavigatorProp } from "../navigation/MainNavigation";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
 import { AuthContext } from "../context/AuthContext";
+import { share } from "../utils/share";
 
 const Explore = () => {
   const [digis, setDigis] = useState<Digi[]>([]);
@@ -25,6 +27,7 @@ const Explore = () => {
   const isFocused = useIsFocused();
 
   const flatListRef = useRef<FlatList>();
+  const videoRef = useRef<Video>();
 
   useEffect(() => {
     const getDigis = async () => {
@@ -89,7 +92,7 @@ const Explore = () => {
           </View>
           {user._id != item.owner && (
             <TouchableOpacity
-              className="w-1/2 rounded-full py-2 bg-snacGreen mb-4 mt-2 ml-2"
+              className="w-1/3 rounded-full py-1 bg-snacGreen mb-4 mt-2 ml-2"
               onPress={() =>
                 navigation.navigate("ExploreStackScreen", {
                   screen: "Checkout",
@@ -105,7 +108,7 @@ const Explore = () => {
                 })
               }
             >
-              <Text className="text-snacPurple text-center font-bold text-xl">
+              <Text className="text-snacPurple text-center font-bold text-lg">
                 Buy ${item.price}
               </Text>
             </TouchableOpacity>
@@ -115,11 +118,82 @@ const Explore = () => {
     );
   };
 
+  // const renderItem: ListRenderItem<Digi> = ({ item, index }) => {
+  //   return (
+  //     <View style={{ height: Dimensions.get("window").height - 90 }}>
+  //       <View className="flex-1 flex flex-col justify-center items-center mt-20 rounded">
+  //         <Image
+  //           source={{ uri: item.image }}
+  //           className="w-5/6 h-5/6 flex flex-col justify-end rounded"
+  //           resizeMode="contain"
+  //         />
+  //       </View>
+  //       <View className="mb-2">
+  //         <View className="flex flex-row items-center justify-between pr-2">
+  //           <View className="flex flex-row items-center">
+  //             <TouchableOpacity
+  //               onPress={() =>
+  //                 navigation.navigate("ExploreStackScreen", {
+  //                   screen: "User",
+  //                   params: {
+  //                     id: item.owner,
+  //                   },
+  //                 })
+  //               }
+  //             >
+  //               <Image
+  //                 source={{
+  //                   uri:
+  //                     item.ownerImage ||
+  //                     "https://www.cdc.gov/healthypets/images/pets/cute-dog-headshot.jpg?_=42445",
+  //                 }}
+  //                 className="w-16 h-16 rounded-full ml-2"
+  //               />
+  //             </TouchableOpacity>
+  //             <Text className="text-white ml-2">{item.ownerName}</Text>
+  //           </View>
+  //           {user._id != item.owner && (
+  //             <TouchableOpacity
+  //               className="w-1/3 rounded-full py-2 bg-snacGreen mb-4 mt-2 ml-2"
+  //               onPress={() =>
+  //                 navigation.navigate("ExploreStackScreen", {
+  //                   screen: "Checkout",
+  //                   params: {
+  //                     description: item.description,
+  //                     image: item.image,
+  //                     likes: item.likes,
+  //                     owner: item.owner,
+  //                     price: item.price,
+  //                     title: item.title,
+  //                     id: item._id,
+  //                   },
+  //                 })
+  //               }
+  //             >
+  //               <Text className="text-snacPurple text-center font-bold text-xl">
+  //                 Buy ${item.price}
+  //               </Text>
+  //             </TouchableOpacity>
+  //           )}
+  //         </View>
+  //         <Text className="text-white ml-2 my-2 text-xl font-bold">
+  //           {item.title}
+  //         </Text>
+  //         <Text className="text-white ml-2 text-lg">{item.description}</Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
+
   return (
     <View className="bg-snacPurple flex-1">
-      <View className="absolute z-10 flex w-full top-16 justify-center items-center">
-        <Logo color="#8CFFAC" height={29} width={80} />
-      </View>
+      <TouchableOpacity
+        className="bg-white/20 rounded-full p-1 absolute top-16 left-4 z-20"
+        onPress={() => share()}
+      >
+        <Feather name="share" size={24} color="white" />
+      </TouchableOpacity>
+
       <TouchableOpacity
         className="bg-white/20 rounded-full p-1 absolute top-16 right-4 z-20"
         onPress={() =>
@@ -128,6 +202,7 @@ const Explore = () => {
       >
         <Feather name="search" size={24} color="white" />
       </TouchableOpacity>
+
       <FlatList
         ref={flatListRef}
         renderItem={renderItem}

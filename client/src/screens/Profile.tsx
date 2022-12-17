@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigatorProp } from "../navigation/MainNavigation";
+import { Video } from "expo-av";
 
 const Profile = () => {
   const { logout, user } = useContext(AuthContext);
@@ -31,16 +32,7 @@ const Profile = () => {
               )}
             </View>
             <View className="p-1 bg-white/10 rounded-full">
-              <Feather
-                name="settings"
-                size={24}
-                color="white"
-                onPress={() =>
-                  navigation.navigate("ProfileStackScreen", {
-                    screen: "Settings",
-                  })
-                }
-              />
+              <Feather name="settings" size={24} color="white" />
             </View>
           </View>
           <View className="w-11/12 mx-auto mt-8">
@@ -80,7 +72,6 @@ const Profile = () => {
             </View>
           </View>
         </View>
-
         <TouchableOpacity
           className="w-3/4 rounded-full py-2 bg-snacGreen self-center mb-4"
           onPress={logout}

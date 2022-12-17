@@ -154,6 +154,7 @@ const User = ({ route }) => {
                                 owner: digi.owner,
                                 likes: digi.likes,
                                 id: digi._id,
+                                from: "ExploreStackScreen",
                               },
                             })
                           }
@@ -189,6 +190,7 @@ const User = ({ route }) => {
                                 owner: digi.owner,
                                 likes: digi.likes,
                                 id: digi._id,
+                                from: "ExploreStackScreen",
                               },
                             })
                           }

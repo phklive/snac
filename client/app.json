@@ -1,21 +1,23 @@
 {
   "expo": {
-    "name": "snack",
-    "slug": "snack",
+    "name": "Snac",
+    "slug": "snac",
+    "description": "Snac app",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "www.https://google.com/",
     "plugins": [
       [
         "expo-image-picker",
@@ -23,6 +25,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9ceebc42-9fd1-441a-ab3f-0553b15159a3"
+      }
+    },
+    "owner": "paulhenryk"
   }
 }

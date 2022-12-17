@@ -11,7 +11,8 @@ import { BASE_URL } from "../utils/config";
 import Loader from "./Loader";
 
 const Digi = ({ route }) => {
-  const { image, title, description, price, owner, likes, id } = route.params;
+  const { image, title, description, price, owner, likes, id, from } =
+    route.params;
   const { user, userToken } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<MainNavigatorProp>();
@@ -35,7 +36,12 @@ const Digi = ({ route }) => {
       );
       setLoading(false);
       navigation.popToTop();
-      navigation.navigate("PortfolioStackScreen", { screen: "Portfolio" });
+      navigation.navigate(from, {
+        screen: "CongratulationsBuy",
+        params: {
+          image: image,
+        },
+      });
     } catch (error: any) {
       console.log(error.message);
       setLoading(false);

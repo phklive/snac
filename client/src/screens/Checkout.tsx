@@ -35,7 +35,12 @@ const Checkout = ({ route }) => {
       );
       setLoading(false);
       navigation.popToTop();
-      navigation.navigate("PortfolioStackScreen", { screen: "Portfolio" });
+      navigation.navigate("ExploreStackScreen", {
+        screen: "CongratulationsBuy",
+        params: {
+          image: image,
+        },
+      });
     } catch (error: any) {
       console.log(error.message);
       setLoading(false);
